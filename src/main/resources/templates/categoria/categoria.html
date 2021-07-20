@@ -1,0 +1,56 @@
+<html>
+<head>
+<meta charset="UTF-8" />
+<head th:replace="~{base :: head}"></head>
+</head>
+<body>
+	<div th:replace="~{base :: menu}"></div>
+	<div class="container">
+		<p class="h4">Campos de pesquisa</p>
+		<form>
+			<div class="form-row mb-3">
+				<div class="col-md-2">
+					<input type="number" min=0 id="busca-id" class="form-control"
+						placeholder="Id">
+				</div>
+
+				<div class="col-md-10">
+					<input type="text" class="form-control" id="busca-descricao"
+						placeholder="Descrição">
+				</div>
+
+			</div>
+		</form>
+		
+		<div class="form-row mb-3">
+
+			<div class="col-md-2">
+				<p class="h4">Categorias</p>
+			</div>
+			<div class="col-md-2">
+				<button type="button" class="btn btn-success btn-block"><a th:href="@{/categoria/formulario}" style="text-decoration:none; color:white">Novo Lançamento</a></button>
+			</div>
+
+		</div>
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">Descrição</th>
+					<th scope="col"></th>
+					<th scope="col"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="categoria : ${categorias}">
+					<th scope="row" th:text="${categoria.id}"></th>
+					<td th:text="${categoria.descricao}"></td>
+					<td><a href="#">Editar</a></td>
+					<td><a href="#">Inativar</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>
+

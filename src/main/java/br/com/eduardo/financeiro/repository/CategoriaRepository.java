@@ -6,4 +6,6 @@ import br.com.eduardo.financeiro.modelo.Categoria;
 
 public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
 
+	Categoria findByDescricao(String categoria);
+
 }

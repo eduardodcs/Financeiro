@@ -1,31 +1,29 @@
-package br.com.eduardo.financeiro.dto;
+package br.com.eduardo.financeiro.controller.form;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
-
-import com.sun.istack.NotNull;
 
 import br.com.eduardo.financeiro.modelo.Categoria;
 import br.com.eduardo.financeiro.modelo.Lancamento;
 import br.com.eduardo.financeiro.repository.CategoriaRepository;
+import br.com.eduardo.financeiro.repository.LancamentoRepository;
 
-public class RequisicaoNovoLancamento {
-
+public class AtualizaLancamentoForm {
 	private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-	
-	@NotNull
+
+	@NotEmpty
 	private String descricao;
 	@Pattern(regexp = "^\\d{2}/\\d{2}/\\d{4}$")
-	@NotNull
+	@NotEmpty
 	private String vencimento;
 	@Pattern(regexp = "^\\d+(\\.\\d+{2})?$")
-	@NotNull
+	@NotEmpty
 	private String valor;
-	@NotNull
+	@NotEmpty
 	private String categoria;
 
 	public String getDescricao() {
@@ -59,20 +57,19 @@ public class RequisicaoNovoLancamento {
 	public void setCategoria(String categoria) {
 		this.categoria = categoria;
 	}
-	
-	
 
-	public Lancamento toLancamento(CategoriaRepository categoriaRepository) {
-		Categoria cat = categoriaRepository.findByDescricao(categoria);
-		Lancamento lancamento = new Lancamento();
+	public static DateTimeFormatter getFormatter() {
+		return formatter;
+	}
+
+	public Lancamento atualizar(Long id, LancamentoRepository lancamentoRepository, CategoriaRepository categoriaRepository) {
+		Lancamento lancamento = lancamentoRepository.getById(id);
+		Categoria objCategoria = categoriaRepository.findByDescricao(categoria);
 		lancamento.setDescricao(descricao);
-		lancamento.setVencimento(LocalDate.parse(vencimento, formatter));
-		lancamento.setValor(new BigDecimal(valor));
-		lancamento.setCategoria(cat);
+		lancamento.setCategoria(objCategoria);
+		lancamento.setValor(new BigDecimal(this.valor));
+		lancamento.setVencimento(LocalDate.parse(this.vencimento, formatter));	
 		return lancamento;
 	}
-	
-	public String toString() {
-		return getCategoria() + getDescricao() + getValor() + getVencimento();
-	}
+
 }

@@ -20,6 +20,13 @@ public class Categoria {
 	private Status status = Status.ATIVO;
 	private LocalDateTime data_criacao = LocalDateTime.now();
 
+	public Categoria() {
+	}
+		
+	public Categoria(String descricao) {
+		this.descricao = descricao;
+	}
+
 	public String toString() {
 		return getDescricao();
 	}
